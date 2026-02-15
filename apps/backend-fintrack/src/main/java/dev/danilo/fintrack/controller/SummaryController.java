@@ -12,18 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/summary")
 public class SummaryController {
 
-    private final SummaryService summaryService;
+  private final SummaryService summaryService;
 
-    public SummaryController(SummaryService summaryService) {
-        this.summaryService = summaryService;
-    }
+  public SummaryController(SummaryService summaryService) {
+    this.summaryService = summaryService;
+  }
 
-    @GetMapping
-    public ResponseEntity<SummaryResponse> getSummary(
-            @RequestParam(required = false) String month
-    ) {
-        return ResponseEntity.ok(
-                summaryService.getSummary(month)
-        );
-    }
+  @GetMapping
+  public ResponseEntity<SummaryResponse> getSummary(@RequestParam(required = false) String month) {
+    return ResponseEntity.ok(summaryService.getSummary(month));
+  }
 }

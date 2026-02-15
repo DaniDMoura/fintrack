@@ -6,10 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class IncomeMapper {
-    public IncomeResponse toIncomeResponse(Income income) {
-        return new IncomeResponse(
-                income.getAmount(),
-                income.getDescription()
-        );
-    }
+  public IncomeResponse toIncomeResponse(Income income) {
+    return new IncomeResponse(income.getAmount(), income.getDescription());
+  }
 }

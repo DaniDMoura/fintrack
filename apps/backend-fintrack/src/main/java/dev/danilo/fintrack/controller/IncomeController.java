@@ -8,35 +8,30 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequestMapping("api/v1/incomes")
 public class IncomeController {
 
-    private final IncomeService incomeService;
+  private final IncomeService incomeService;
 
-    public IncomeController(IncomeService incomeService) {
-        this.incomeService = incomeService;
-    }
+  public IncomeController(IncomeService incomeService) {
+    this.incomeService = incomeService;
+  }
 
-    @GetMapping
-    public ResponseEntity<IncomeResponse> getCurrentIncome() {
-        return ResponseEntity.ok(
-                incomeService.findCurrentUserIncome()
-        );
-    }
+  @GetMapping
+  public ResponseEntity<IncomeResponse> getCurrentIncome() {
+    return ResponseEntity.ok(incomeService.findCurrentUserIncome());
+  }
 
-    @PutMapping
-    public ResponseEntity<IncomeResponse> updateCurrentIncome(@RequestBody @Valid IncomeRequest incomeRequest) {
-        return ResponseEntity.ok(
-                incomeService.updateCurrentUserIncome(incomeRequest)
-        );
-    }
+  @PutMapping
+  public ResponseEntity<IncomeResponse> updateCurrentIncome(
+      @RequestBody @Valid IncomeRequest incomeRequest) {
+    return ResponseEntity.ok(incomeService.updateCurrentUserIncome(incomeRequest));
+  }
 
-    @PatchMapping
-    public ResponseEntity<IncomeResponse> setCurrentIncomeAmount(@RequestBody @Valid IncomeAmountRequest incomeAmountRequest) {
-        return ResponseEntity.ok(
-                incomeService.setCurrentUserIncomeAmount(incomeAmountRequest)
-        );
-    }
+  @PatchMapping
+  public ResponseEntity<IncomeResponse> setCurrentIncomeAmount(
+      @RequestBody @Valid IncomeAmountRequest incomeAmountRequest) {
+    return ResponseEntity.ok(incomeService.setCurrentUserIncomeAmount(incomeAmountRequest));
+  }
 }

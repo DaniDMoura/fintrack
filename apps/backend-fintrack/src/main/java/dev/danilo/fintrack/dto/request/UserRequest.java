@@ -6,12 +6,4 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record UserRequest(
-        @Email
-        @NotBlank
-        String email,
-        @NotBlank
-        String password,
-        @NotNull
-        Income income
-) {
-}
+    @Email @NotBlank String email, @NotBlank String password, @NotNull Income income) {}

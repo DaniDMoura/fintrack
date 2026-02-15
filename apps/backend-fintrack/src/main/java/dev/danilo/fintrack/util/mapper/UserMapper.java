@@ -9,26 +9,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
 
-    private final PasswordEncoder passwordEncoder;
+  private final PasswordEncoder passwordEncoder;
 
-    public UserMapper(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
+  public UserMapper(PasswordEncoder passwordEncoder) {
+    this.passwordEncoder = passwordEncoder;
+  }
 
-    public UserResponse toUserResponse(User user) {
-        return new UserResponse(
-                user.getId(),
-                user.getEmail(),
-                user.getIncome(),
-                user.getExpenses()
-        );
-    }
+  public UserResponse toUserResponse(User user) {
+    return new UserResponse(user.getId(), user.getEmail(), user.getIncome(), user.getExpenses());
+  }
 
-    public User toUserEntity(UserRequest userRequest) {
-        return new User(
-                userRequest.income(),
-                userRequest.email(),
-                passwordEncoder.encode(userRequest.password())
-        );
-    }
+  public User toUserEntity(UserRequest userRequest) {
+    return new User(
+        userRequest.income(), userRequest.email(), passwordEncoder.encode(userRequest.password()));
+  }
 }

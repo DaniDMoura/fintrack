@@ -5,11 +5,11 @@ import org.springframework.http.ProblemDetail;
 
 public class FintrackException extends RuntimeException {
 
-    public ProblemDetail toProblemDetail() {
-        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-        problemDetail.setTitle("Fintrack Internal Server Error");
-        problemDetail.setDetail("An unexpected error occurred. Please try again later.");
+  public ProblemDetail toProblemDetail() {
+    ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+    problemDetail.setTitle("Fintrack Internal Server Error");
+    problemDetail.setDetail("An unexpected error occurred. Please try again later.");
 
-        return problemDetail;
-    }
+    return problemDetail;
+  }
 }

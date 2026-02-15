@@ -8,22 +8,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ExpenseMapper {
-    public ExpenseResponse toExpenseResponse(Expense expense) {
-        return new ExpenseResponse(
-                expense.getId(),
-                expense.getAmount(),
-                expense.getCategory(),
-                expense.getDescription(),
-                expense.getCreatedAt()
-        );
-    }
+  public ExpenseResponse toExpenseResponse(Expense expense) {
+    return new ExpenseResponse(
+        expense.getId(),
+        expense.getAmount(),
+        expense.getCategory(),
+        expense.getDescription(),
+        expense.getCreatedAt());
+  }
 
-    public Expense toExpenseEntity(ExpenseRequest expenseRequest, User user) {
-        return new Expense(
-                user,
-                expenseRequest.amount(),
-                expenseRequest.category(),
-                expenseRequest.description()
-        );
-    }
+  public Expense toExpenseEntity(ExpenseRequest expenseRequest, User user) {
+    return new Expense(
+        user, expenseRequest.amount(), expenseRequest.category(), expenseRequest.description());
+  }
 }

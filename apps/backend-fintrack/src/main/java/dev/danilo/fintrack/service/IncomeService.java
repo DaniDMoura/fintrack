@@ -11,50 +11,55 @@ import dev.danilo.fintrack.util.mapper.IncomeMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-
 @Service
 public class IncomeService {
 
-    private final IncomeRepository incomeRepository;
-    private final IncomeMapper incomeMapper;
-    private final FindAuthenticatedUser findAuthenticatedUser;
+  private final IncomeRepository incomeRepository;
+  private final IncomeMapper incomeMapper;
+  private final FindAuthenticatedUser findAuthenticatedUser;
 
-    public IncomeService(IncomeRepository incomeRepository, IncomeMapper incomeMapper, FindAuthenticatedUser findAuthenticatedUser) {
-        this.incomeRepository = incomeRepository;
-        this.incomeMapper = incomeMapper;
-        this.findAuthenticatedUser = findAuthenticatedUser;
-    }
+  public IncomeService(
+      IncomeRepository incomeRepository,
+      IncomeMapper incomeMapper,
+      FindAuthenticatedUser findAuthenticatedUser) {
+    this.incomeRepository = incomeRepository;
+    this.incomeMapper = incomeMapper;
+    this.findAuthenticatedUser = findAuthenticatedUser;
+  }
 
-    public IncomeResponse findCurrentUserIncome() {
-        return incomeMapper.toIncomeResponse(incomeRepository.findByUser(findAuthenticatedUser.getAuthenticatedUser())
-                .orElseThrow(IncomeNotFoundException::new));
-    }
+  public IncomeResponse findCurrentUserIncome() {
+    return incomeMapper.toIncomeResponse(
+        incomeRepository
+            .findByUser(findAuthenticatedUser.getAuthenticatedUser())
+            .orElseThrow(IncomeNotFoundException::new));
+  }
 
-    @Transactional
-    public IncomeResponse updateCurrentUserIncome(IncomeRequest incomeRequest) {
-        Income dbIncome = incomeRepository.findByUser(findAuthenticatedUser.getAuthenticatedUser())
-                .orElseThrow(IncomeNotFoundException::new);
+  @Transactional
+  public IncomeResponse updateCurrentUserIncome(IncomeRequest incomeRequest) {
+    Income dbIncome =
+        incomeRepository
+            .findByUser(findAuthenticatedUser.getAuthenticatedUser())
+            .orElseThrow(IncomeNotFoundException::new);
 
-        dbIncome.setAmount(incomeRequest.amount());
-        dbIncome.setDescription(incomeRequest.description());
+    dbIncome.setAmount(incomeRequest.amount());
+    dbIncome.setDescription(incomeRequest.description());
 
-        Income savedIncome = incomeRepository.save(dbIncome);
+    Income savedIncome = incomeRepository.save(dbIncome);
 
-        return incomeMapper.toIncomeResponse(savedIncome);
-    }
+    return incomeMapper.toIncomeResponse(savedIncome);
+  }
 
-    @Transactional
-    public IncomeResponse setCurrentUserIncomeAmount(IncomeAmountRequest incomeAmountRequest) {
-        Income income = incomeRepository.findByUser(findAuthenticatedUser.getAuthenticatedUser())
-                .orElseThrow(IncomeNotFoundException::new);
+  @Transactional
+  public IncomeResponse setCurrentUserIncomeAmount(IncomeAmountRequest incomeAmountRequest) {
+    Income income =
+        incomeRepository
+            .findByUser(findAuthenticatedUser.getAuthenticatedUser())
+            .orElseThrow(IncomeNotFoundException::new);
 
-        income.setAmount(incomeAmountRequest.amount());
+    income.setAmount(incomeAmountRequest.amount());
 
-        Income savedIncome = incomeRepository.save(income);
+    Income savedIncome = incomeRepository.save(income);
 
-        return incomeMapper.toIncomeResponse(savedIncome);
-    }
-
-
+    return incomeMapper.toIncomeResponse(savedIncome);
+  }
 }
