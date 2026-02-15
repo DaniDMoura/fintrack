@@ -20,7 +20,6 @@ import dev.danilo.fintrack.util.mapper.UserMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import javax.management.relation.Role;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeParseException;
