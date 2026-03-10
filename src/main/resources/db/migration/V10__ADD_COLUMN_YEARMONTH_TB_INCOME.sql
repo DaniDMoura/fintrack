@@ -1,0 +1,2 @@
+ALTER TABLE tb_income
+ADD COLUMN year_month DATE NOT NULL;

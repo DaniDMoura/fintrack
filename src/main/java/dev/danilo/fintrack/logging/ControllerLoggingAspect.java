@@ -1,0 +1,47 @@
+package dev.danilo.fintrack.logging;
+
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+@Aspect
+@Component
+public class ControllerLoggingAspect {
+
+  private static final Logger logger = LoggerFactory.getLogger(ControllerLoggingAspect.class);
+
+  @Pointcut("within(dev.danilo.fintrack.controller..*)")
+  public void controllerLayer() {}
+
+  @Around("controllerLayer()")
+  public Object logController(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+    long start = System.currentTimeMillis();
+    Object result = proceedingJoinPoint.proceed();
+    long duration = System.currentTimeMillis() - start;
+    logger.info(
+        "[Controller] {} executed in {} ms",
+        proceedingJoinPoint.getSignature().toShortString(),
+        duration);
+    return result;
+  }
+
+  @AfterThrowing(pointcut = "controllerLayer()", throwing = "exception")
+  public void logControllerAfterThrowingException(JoinPoint joinPoint, Throwable exception) {
+    String className = joinPoint.getSignature().getDeclaringTypeName();
+    String methodName = joinPoint.getSignature().getName();
+
+    logger.error(
+        "[Controller] Exception in {}.{}() - {}: {}",
+        className,
+        methodName,
+        exception.getClass().getSimpleName(),
+        exception.getMessage(),
+        exception);
+  }
+}
