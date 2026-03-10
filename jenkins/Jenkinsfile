@@ -1,0 +1,33 @@
+pipeline {
+  agent any
+  parameters {
+     string(name: 'EMAIL', defaultValue: 'mouradanilo061@gmail.com')
+  }
+  environment {
+    DOCKER_CREDS = credentials('DOCKER_SECRET')
+  }
+  triggers {
+    pollSCM('H/5 * * * *')
+  }
+  stages {
+    stage('Build Image') {
+      steps {
+        sh './jenkins/scripts/build.sh ${DOCKER_CREDS_USR} ${env.BUILD_NUMBER}'
+      }
+    }
+    stage('Push Image') {
+      steps {
+        sh './jenkins/scripts/push.sh ${DOCKER_CREDS_USR} ${DOCKER_CREDS_PSW} ${env.BUILD_NUMBER}'
+      }
+    }
+  }
+  post {
+    success {
+      mail(
+        to: params.EMAIL,
+        subject: "SUCCESS - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+        body: "Build concluída com sucesso.\n${env.BUILD_URL}"
+      )
+    }
+  }
+}
